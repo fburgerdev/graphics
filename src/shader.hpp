@@ -1,9 +1,9 @@
 #pragma once
-#include "common.hpp"
+#include "object.hpp"
 #include "math.hpp"
 
 namespace Graphics {
-    class Shader {
+    class Shader : GraphicsObject{
     public:
         // constructor / destructor
         Shader(string_view vertexsrc, string_view fragmentsrc);
@@ -12,26 +12,25 @@ namespace Graphics {
         void bind(function<void()> onbind) const;
         // uniform
         // uniform :: int
-        void setUniformInt(const std::string& identifier, int32_t val) const;
-        void setUniformVec2i(const std::string& identifier, const Math::Vec2i& val) const;
-        void setUniformVec3i(const std::string& identifier, const Math::Vec3i& val) const;
-        void setUniformVec4i(const std::string& identifier, const Math::Vec4i& val) const;
+        void setUniformInt(const string& name, int32_t value) const;
+        void setUniformVec2i(const string& name, const Math::Vec2i& value) const;
+        void setUniformVec3i(const string& name, const Math::Vec3i& value) const;
+        void setUniformVec4i(const string& name, const Math::Vec4i& value) const;
         // uniform :: float
-        void setUniformFloat(const std::string& identifier, float val) const;
-        void setUniformVec2f(const std::string& identifier, const Math::Vec2f& val) const;
-        void setUniformVec3f(const std::string& identifier, const Math::Vec3f& val) const;
-        void setUniformVec4f(const std::string& identifier, const Math::Vec4f& val) const;
+        void setUniformFloat(const string& name, float value) const;
+        void setUniformVec2f(const string& name, const Math::Vec2f& value) const;
+        void setUniformVec3f(const string& name, const Math::Vec3f& value) const;
+        void setUniformVec4f(const string& name, const Math::Vec4f& value) const;
         // uniform :: matrix
-        void setUniformMat2f(const std::string& identifier, const Math::Mat2f& mat) const;
-        void setUniformMat3f(const std::string& identifier, const Math::Mat3f& mat) const;
-        void setUniformMat4f(const std::string& identifier, const Math::Mat4f& mat) const;
+        void setUniformMat2f(const string& name, const Math::Mat2f& mat) const;
+        void setUniformMat3f(const string& name, const Math::Mat3f& mat) const;
+        void setUniformMat4f(const string& name, const Math::Mat4f& mat) const;
     private:
-        uint32_t CompileShader(int32_t shaderType, const std::string& source);
-        uint32_t GetUniformLocation(const std::string& identifier) const;
-    private:
-        uint32_t m_ID;
-        mutable std::unordered_map<std::string, int32_t> m_ULocationCache;
-    private:
-
+        // uniform :: id
+        uint32 getUniformID(const string& name) const;
+        // member
+        mutable HashMap<string, uint32> m_UniformIDCache;
+        // mutex
+        static inline mutex s_Mutex;
     };
 }

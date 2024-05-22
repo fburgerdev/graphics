@@ -1,114 +1,101 @@
-#pragma once
 #include "shader.hpp"
+#include <GL/glew.h> // GLEW
 
 namespace Graphics {
-    Shader::Sader
-    namespace Graphics
-    {
-        Shader_OPENGL::Shader_OPENGL(const std::string& vertexSrc, const std::string& fragmentSrc)
-            : m_ID(0)
-        {
-            m_ID = glCreateProgram();
-            uint32_t vs = CompileShader(GL_VERTEX_SHADER, vertexSrc);
-            uint32_t fs = CompileShader(GL_FRAGMENT_SHADER, fragmentSrc);
-            glAttachShader(m_ID, vs);
-            glAttachShader(m_ID, fs);
-            glLinkProgram(m_ID);
-            glValidateProgram(m_ID);
-
-            glDeleteShader(vs);
-            glDeleteShader(fs);
+    // compile
+    static uint32 compile(int32 shaderType, string_view source) {
+        uint32 id = glCreateShader(shaderType);
+        const char* sourccstr = source.data();
+        glShaderSource(id, 1, &sourccstr, nullptr);
+        glCompileShader(id);
+        int32 result;
+        glGetShaderiv(id, GL_COMPILE_STATUS, &result);
+        if (result == GL_FALSE) {
+            int32 length;
+            glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+            char* message = new char[length];
+            glGetShaderInfoLog(id, length, &length, message);
+            glDeleteShader(id);
+            // TODO: log error
+            delete[] message;
+            return 0;
         }
-        Shader_OPENGL::~Shader_OPENGL()
-        {
+        return id;
+    }
+
+    // constructor / destructor
+    Shader::Shader(string_view vertexsrc, string_view fragmentsrc) {
+        // TODO: error handling
+        // create
+        m_ID = glCreateProgram();
+        uint32 vs = compile(GL_VERTEX_SHADER, vertexsrc);
+        uint32 fs = compile(GL_FRAGMENT_SHADER, fragmentsrc);
+        // link
+        glAttachShader(m_ID, vs);
+        glAttachShader(m_ID, fs);
+        glLinkProgram(m_ID);
+        glValidateProgram(m_ID);
+        // delete
+        glDeleteShader(vs);
+        glDeleteShader(fs);
+    }
+    Shader::~Shader() {
+        if (m_ID) {
             glDeleteProgram(m_ID);
         }
-
-        void Shader_OPENGL::Bind() const
-        {
+    }
+    // bind
+    void Shader::bind(function<void()> onbind) const {
+        if (m_ID) {
+            std::lock_guard lock(s_Mutex);
             glUseProgram(m_ID);
+            onbind();
         }
-        void Shader_OPENGL::Unbind() const
-        {
-            glUseProgram(0);
+    }
+    // uniform
+    // uniform :: int
+    void Shader::setUniformInt(const string& name, int32_t value) const {
+        glUniform1i(getUniformID(name), value);
+    }
+    void Shader::setUniformVec2i(const string& name, const Math::Vec2i& value) const {
+        glUniform2i(getUniformID(name), value.x, value.y);
+    }
+    void Shader::setUniformVec3i(const string& name, const Math::Vec3i& value) const {
+        glUniform3i(getUniformID(name), value.x, value.y, value.z);
+    }
+    void Shader::setUniformVec4i(const string& name, const Math::Vec4i& value) const {
+        glUniform4i(getUniformID(name), value.x, value.y, value.z, value.w);
+    }
+    // uniform :: float
+    void Shader::setUniformFloat(const string& name, float value) const {
+        glUniform1f(getUniformID(name), value);
+    }
+    void Shader::setUniformVec2f(const string& name, const Math::Vec2f& value) const {
+        glUniform2f(getUniformID(name), value.x, value.y);
+    }
+    void Shader::setUniformVec3f(const string& name, const Math::Vec3f& value) const {
+        glUniform3f(getUniformID(name), value.x, value.y, value.z);
+    }
+    void Shader::setUniformVec4f(const string& name, const Math::Vec4f& value) const {
+        glUniform4f(getUniformID(name), value.x, value.y, value.z, value.w);
+    }
+    // uniform :: matrix
+    void Shader::setUniformMat2f(const string& name, const Math::Mat2f& mat) const {
+        glUniformMatrix2fv(getUniformID(name), 1, GL_FALSE, mat.data());
+    }
+    void Shader::setUniformMat3f(const string& name, const Math::Mat3f& mat) const {
+        glUniformMatrix3fv(getUniformID(name), 1, GL_FALSE, mat.data());
+    }
+    void Shader::setUniformMat4f(const string& name, const Math::Mat4f& mat) const {
+        glUniformMatrix4fv(getUniformID(name), 1, GL_FALSE, mat.data());
+    }
+    // uniform :: id
+    uint32 Shader::getUniformID(const string& name) const {
+        if (m_UniformIDCache.contains(name)) {
+            return m_UniformIDCache[name];
         }
-
-        void Shader_OPENGL::SetUniformInt(const std::string& identifier, int32_t val) const
-        {
-            glUniform1i(GetUniformLocation(identifier), val);
-        }
-        void Shader_OPENGL::SetUniformVec2i(const std::string& identifier, const Math::Vec2i& val) const
-        {
-            glUniform2i(GetUniformLocation(identifier), val.x, val.y);
-        }
-        void Shader_OPENGL::SetUniformVec3i(const std::string& identifier, const Math::Vec3i& val) const
-        {
-            glUniform3i(GetUniformLocation(identifier), val.x, val.y, val.z);
-        }
-        void Shader_OPENGL::SetUniformVec4i(const std::string& identifier, const Math::Vec4i& val) const
-        {
-            glUniform4i(GetUniformLocation(identifier), val.x, val.y, val.z, val.w);
-        }
-
-        void Shader_OPENGL::SetUniformFloat(const std::string& identifier, float val) const
-        {
-            glUniform1f(GetUniformLocation(identifier), val);
-        }
-        void Shader_OPENGL::SetUniformVec2f(const std::string& identifier, const Math::Vec2f& val) const
-        {
-            glUniform2f(GetUniformLocation(identifier), val.x, val.y);
-        }
-        void Shader_OPENGL::SetUniformVec3f(const std::string& identifier, const Math::Vec3f& val) const
-        {
-            glUniform3f(GetUniformLocation(identifier), val.x, val.y, val.z);
-        }
-        void Shader_OPENGL::SetUniformVec4f(const std::string& identifier, const Math::Vec4f& val) const
-        {
-            glUniform4f(GetUniformLocation(identifier), val.x, val.y, val.z, val.w);
-        }
-        void Shader_OPENGL::SetUniformMat2f(const std::string& identifier, const Math::Mat2f& mat) const
-        {
-            glUniformMatrix2fv(GetUniformLocation(identifier), 1, GL_FALSE, mat.Raw());
-        }
-        void Shader_OPENGL::SetUniformMat3f(const std::string& identifier, const Math::Mat3f& mat) const
-        {
-            glUniformMatrix3fv(GetUniformLocation(identifier), 1, GL_FALSE, mat.Raw());
-        }
-        void Shader_OPENGL::SetUniformMat4f(const std::string& identifier, const Math::Mat4f& mat) const
-        {
-            glUniformMatrix4fv(GetUniformLocation(identifier), 1, GL_FALSE, mat.Raw());
-        }
-
-        uint32_t Shader_OPENGL::CompileShader(int32_t shaderType, const std::string& source)
-        {
-            uint32_t id = glCreateShader(shaderType);
-            const char* src = source.c_str();
-            glShaderSource(id, 1, &src, nullptr);
-            glCompileShader(id);
-            int32_t result;
-            glGetShaderiv(id, GL_COMPILE_STATUS, &result);
-
-            if (result == GL_FALSE)
-            {
-                int32_t length;
-                glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-                char* message = new char[length];
-                glGetShaderInfoLog(id, length, &length, message);
-                glDeleteShader(id);
-                DebugOut << message << Debugstream::EndMsg;
-                delete[] message;
-                return 0;
-            }
-            return id;
-        }
-        uint32_t Shader_OPENGL::GetUniformLocation(const std::string& identifier) const
-        {
-            if (m_ULocationCache.find(identifier) != m_ULocationCache.end())
-                return m_ULocationCache[identifier];
-            int32_t location = glGetUniformLocation(m_ID, identifier.c_str());
-
-            m_ULocationCache[identifier] = location;
-            return location;
-        }
+        uint32 id = glGetUniformLocation(m_ID, name.c_str());
+        m_UniformIDCache[name] = id;
+        return id;
     }
 }

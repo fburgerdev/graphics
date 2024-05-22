@@ -1,0 +1,6 @@
+[submodule "vendor/window"]
+	path = vendor/window
+	url = https://github.com/fburgerdev/window.git
+[submodule "vendor/math"]
+	path = vendor/math
+	url = https://github.com/fburgerdev/math.git

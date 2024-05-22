@@ -22,12 +22,12 @@ namespace Graphics {
             return *this;
         }      
         // get
-        uint getID() const {
+        uint32 getID() const {
             return m_ID;
         }
     protected:
         // member
-        uint m_ID;
+        uint32 m_ID;
     };
 
 }

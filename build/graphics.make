@@ -93,6 +93,8 @@ endif
 
 OBJECTS := \
 	$(OBJDIR)/indexbuffer.o \
+	$(OBJDIR)/shader.o \
+	$(OBJDIR)/texture.o \
 	$(OBJDIR)/vertexarray.o \
 	$(OBJDIR)/vertexbuffer.o \
 
@@ -154,6 +156,12 @@ $(OBJECTS): | $(OBJDIR)
 endif
 
 $(OBJDIR)/indexbuffer.o: ../src/indexbuffer.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/shader.o: ../src/shader.cpp
+	@echo $(notdir $<)
+	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
+$(OBJDIR)/texture.o: ../src/texture.cpp
 	@echo $(notdir $<)
 	$(SILENT) $(CXX) $(ALL_CXXFLAGS) $(FORCE_INCLUDE) -o "$@" -MF "$(@:%.o=%.d)" -c "$<"
 $(OBJDIR)/vertexarray.o: ../src/vertexarray.cpp

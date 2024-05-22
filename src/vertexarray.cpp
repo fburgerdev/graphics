@@ -4,6 +4,16 @@
 namespace Graphics {
     // constructor
     VertexArray::VertexArray(const Vertexbuffer& vertexbuffer, List<VertexAttribute>& layout) {
+        create(vertexbuffer, layout);
+    }
+    // destructor
+    VertexArray::~VertexArray() {
+        if (m_ID) {
+            glDeleteVertexArrays(1, &m_ID);
+        }
+    }
+    // create
+    void VertexArray::create(const Vertexbuffer& vertexbuffer, List<VertexAttribute>& layout) {
         glGenVertexArrays(1, &m_ID);
         bind([&]() {
             vertexbuffer.bind([&]() {
@@ -34,12 +44,6 @@ namespace Graphics {
                 }
             });
         });
-    }
-    // destructor
-    VertexArray::~VertexArray() {
-        if (m_ID) {
-            glDeleteVertexArrays(1, &m_ID);
-        }
     }
     // bind
     void VertexArray::bind(function<void()> onbind) const {

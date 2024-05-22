@@ -54,39 +54,39 @@ namespace Graphics {
     }
     // uniform
     // uniform :: int
-    void Shader::setUniformInt(const string& name, int32_t value) const {
+    void Shader::setUniformInt(const string& name, int32_t value) {
         glUniform1i(getUniformID(name), value);
     }
-    void Shader::setUniformVec2i(const string& name, const Math::Vec2i& value) const {
+    void Shader::setUniformVec2i(const string& name, const Math::Vec2i& value) {
         glUniform2i(getUniformID(name), value.x, value.y);
     }
-    void Shader::setUniformVec3i(const string& name, const Math::Vec3i& value) const {
+    void Shader::setUniformVec3i(const string& name, const Math::Vec3i& value) {
         glUniform3i(getUniformID(name), value.x, value.y, value.z);
     }
-    void Shader::setUniformVec4i(const string& name, const Math::Vec4i& value) const {
+    void Shader::setUniformVec4i(const string& name, const Math::Vec4i& value) {
         glUniform4i(getUniformID(name), value.x, value.y, value.z, value.w);
     }
     // uniform :: float
-    void Shader::setUniformFloat(const string& name, float value) const {
+    void Shader::setUniformFloat(const string& name, float value) {
         glUniform1f(getUniformID(name), value);
     }
-    void Shader::setUniformVec2f(const string& name, const Math::Vec2f& value) const {
+    void Shader::setUniformVec2f(const string& name, const Math::Vec2f& value) {
         glUniform2f(getUniformID(name), value.x, value.y);
     }
-    void Shader::setUniformVec3f(const string& name, const Math::Vec3f& value) const {
+    void Shader::setUniformVec3f(const string& name, const Math::Vec3f& value) {
         glUniform3f(getUniformID(name), value.x, value.y, value.z);
     }
-    void Shader::setUniformVec4f(const string& name, const Math::Vec4f& value) const {
+    void Shader::setUniformVec4f(const string& name, const Math::Vec4f& value) {
         glUniform4f(getUniformID(name), value.x, value.y, value.z, value.w);
     }
     // uniform :: matrix
-    void Shader::setUniformMat2f(const string& name, const Math::Mat2f& mat) const {
+    void Shader::setUniformMat2f(const string& name, const Math::Mat2f& mat) {
         glUniformMatrix2fv(getUniformID(name), 1, GL_FALSE, mat.data());
     }
-    void Shader::setUniformMat3f(const string& name, const Math::Mat3f& mat) const {
+    void Shader::setUniformMat3f(const string& name, const Math::Mat3f& mat) {
         glUniformMatrix3fv(getUniformID(name), 1, GL_FALSE, mat.data());
     }
-    void Shader::setUniformMat4f(const string& name, const Math::Mat4f& mat) const {
+    void Shader::setUniformMat4f(const string& name, const Math::Mat4f& mat) {
         glUniformMatrix4fv(getUniformID(name), 1, GL_FALSE, mat.data());
     }
     // uniform :: id

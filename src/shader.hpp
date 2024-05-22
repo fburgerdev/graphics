@@ -12,19 +12,19 @@ namespace Graphics {
         void bind(function<void()> onbind) const;
         // uniform
         // uniform :: int
-        void setUniformInt(const string& name, int32_t value) const;
-        void setUniformVec2i(const string& name, const Math::Vec2i& value) const;
-        void setUniformVec3i(const string& name, const Math::Vec3i& value) const;
-        void setUniformVec4i(const string& name, const Math::Vec4i& value) const;
+        void setUniformInt(const string& name, int32_t value);
+        void setUniformVec2i(const string& name, const Math::Vec2i& value);
+        void setUniformVec3i(const string& name, const Math::Vec3i& value);
+        void setUniformVec4i(const string& name, const Math::Vec4i& value);
         // uniform :: float
-        void setUniformFloat(const string& name, float value) const;
-        void setUniformVec2f(const string& name, const Math::Vec2f& value) const;
-        void setUniformVec3f(const string& name, const Math::Vec3f& value) const;
-        void setUniformVec4f(const string& name, const Math::Vec4f& value) const;
+        void setUniformFloat(const string& name, float value);
+        void setUniformVec2f(const string& name, const Math::Vec2f& value);
+        void setUniformVec3f(const string& name, const Math::Vec3f& value);
+        void setUniformVec4f(const string& name, const Math::Vec4f& value);
         // uniform :: matrix
-        void setUniformMat2f(const string& name, const Math::Mat2f& mat) const;
-        void setUniformMat3f(const string& name, const Math::Mat3f& mat) const;
-        void setUniformMat4f(const string& name, const Math::Mat4f& mat) const;
+        void setUniformMat2f(const string& name, const Math::Mat2f& mat);
+        void setUniformMat3f(const string& name, const Math::Mat3f& mat);
+        void setUniformMat4f(const string& name, const Math::Mat4f& mat);
     private:
         // uniform :: id
         uint32 getUniformID(const string& name) const;

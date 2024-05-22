@@ -2,6 +2,7 @@
 #include "common.hpp"
 #include "window.hpp"
 #include "vertexbuffer.hpp"
+#include "material.hpp"
 
 using namespace Graphics;
 int main() {

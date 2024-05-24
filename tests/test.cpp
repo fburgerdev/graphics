@@ -5,8 +5,22 @@
 #include "material.hpp"
 
 using namespace Graphics;
+std::string vertexShader =
+"#version 430\n"
+"in vec3 pos;"
+"void main() {"
+"gl_Position = vec4(pos, 1);"
+"}";
+std::string fragmentShader =
+"#version 430\n"
+"out vec4 fragColor;"
+"void main() {"
+"fragColor = vesc4(1, 0, 0, 1);"
+"}";
+
 int main() {
     Wndw::Window window("TestWindow", 1080, 720);
+    Shader shader(vertexShader, fragmentShader);
     Vertexbuffer(List<int>({1, 2, 3}));
     std::cout << "Hello World!" << std::endl;
     return EXIT_SUCCESS;
@@ -18,17 +32,6 @@ int main() {
 // // #include "glad/glad.h"
 // #include <iostream>
 // #include <string>
- 
-// std::string vertexShader = "#version 430\n"
-//                            "in vec3 pos;"
-//                            "void main() {"
-//                            "gl_Position = vec4(pos, 1);"
-//                            "}";
- 
-// std::string fragmentShader = "#version 430\n"
-//                              "void main() {"
-//                              "gl_FragColor = vec4(1, 0, 0, 1);"
-//                              "}";
  
 // // Compile and create shader object and returns its id
 // GLuint compileShaders(std::string shader, GLenum type)

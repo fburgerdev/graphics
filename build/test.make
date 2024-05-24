@@ -16,15 +16,15 @@ ifeq ($(config),debug)
   TARGET = $(TARGETDIR)/test
   OBJDIR = ../bin/obj/linux_debug/test
   DEFINES += -DCONFIG_DEBUG
-  INCLUDES += -I.. -I../src -I../vendor -I../vendor/glad/include -I../vendor/window/include -I../vendor/math/include -I../include
+  INCLUDES += -I.. -I../src -I../vendor -I../vendor/beaver/include -I../vendor/window/include -I../vendor/math/include -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -g
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -g -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/debug/libgraphics.a -lwindow -lglfw -lGLEW -lGLU -lGL
+  LIBS += ../lib/debug/libgraphics.a -lwindow -lglfw -lGLEW -lGLU -lGL -llogging
   LDDEPS += ../lib/debug/libgraphics.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../vendor/window/lib/debug -L../vendor/math/lib/debug
+  ALL_LDFLAGS += $(LDFLAGS) -L../vendor/beaver/lib/debug -L../vendor/window/lib/debug -L../vendor/math/lib/debug
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -43,15 +43,15 @@ ifeq ($(config),release)
   TARGET = $(TARGETDIR)/test
   OBJDIR = ../bin/obj/linux_release/test
   DEFINES += -DCONFIG_RELEASE
-  INCLUDES += -I.. -I../src -I../vendor -I../vendor/glad/include -I../vendor/window/include -I../vendor/math/include -I../include
+  INCLUDES += -I.. -I../src -I../vendor -I../vendor/beaver/include -I../vendor/window/include -I../vendor/math/include -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/release/libgraphics.a -lwindow -lglfw -lGLEW -lGLU -lGL
+  LIBS += ../lib/release/libgraphics.a -lwindow -lglfw -lGLEW -lGLU -lGL -llogging
   LDDEPS += ../lib/release/libgraphics.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../vendor/window/lib/release -s -Ofast
+  ALL_LDFLAGS += $(LDFLAGS) -L../vendor/beaver/lib/release -L../vendor/window/lib/release -s -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef
@@ -70,15 +70,15 @@ ifeq ($(config),dist)
   TARGET = $(TARGETDIR)/test
   OBJDIR = ../bin/obj/linux_dist/test
   DEFINES += -DCONFIG_DIST
-  INCLUDES += -I.. -I../src -I../vendor -I../vendor/glad/include -I../vendor/window/include -I../vendor/math/include -I../include
+  INCLUDES += -I.. -I../src -I../vendor -I../vendor/beaver/include -I../vendor/window/include -I../vendor/math/include -I../include
   FORCE_INCLUDE +=
   ALL_CPPFLAGS += $(CPPFLAGS) -MD -MP $(DEFINES) $(INCLUDES)
   ALL_CFLAGS += $(CFLAGS) $(ALL_CPPFLAGS) -O2
   ALL_CXXFLAGS += $(CXXFLAGS) $(ALL_CPPFLAGS) -O2 -std=c++20
   ALL_RESFLAGS += $(RESFLAGS) $(DEFINES) $(INCLUDES)
-  LIBS += ../lib/dist/libgraphics.a -lwindow -lglfw -lGLEW -lGLU -lGL
+  LIBS += ../lib/dist/libgraphics.a -lwindow -lglfw -lGLEW -lGLU -lGL -llogging
   LDDEPS += ../lib/dist/libgraphics.a
-  ALL_LDFLAGS += $(LDFLAGS) -L../vendor/window/lib/dist -L../vendor/math/lib/dist -s -Ofast
+  ALL_LDFLAGS += $(LDFLAGS) -L../vendor/beaver/lib/dist -L../vendor/window/lib/dist -L../vendor/math/lib/dist -s -Ofast
   LINKCMD = $(CXX) -o "$@" $(OBJECTS) $(RESOURCES) $(ALL_LDFLAGS) $(LIBS)
   define PREBUILDCMDS
   endef

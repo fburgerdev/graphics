@@ -85,5 +85,5 @@ project "test"
       --[[ INSERT ADDITIONAL FILES HERE ]]
    }
    -- link
-   links { PRJ_NAME, "window", "glfw", "GLEW", "GLU", "GL", --[[ INSERT ADDITIONAL LINKS HERE ]] }
+   links { PRJ_NAME, "window", "glfw", "GLEW", "GLU", "GL", "logging", --[[ INSERT ADDITIONAL LINKS HERE ]] }
 --[[ INSERT ADDITIONAL TESTS HERE ]]

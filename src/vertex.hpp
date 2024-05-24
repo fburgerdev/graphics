@@ -15,9 +15,4 @@ namespace Graphics {
         VertexDType dtype;
         uint count;
     };
-    // Vertex
-    struct Vertex {
-        // interface
-        virtual List<VertexAttribute> getAttributes() const = 0;  
-    };
 }

@@ -1,4 +1,5 @@
 #include "shader.hpp"
+#include "logging.hpp"
 #include <GL/glew.h> // GLEW
 
 namespace Graphics {
@@ -16,7 +17,7 @@ namespace Graphics {
             char* message = new char[length];
             glGetShaderInfoLog(id, length, &length, message);
             glDeleteShader(id);
-            // TODO: log error
+            LOG_ERROR("Shader compilation failed!\n\nMessage\n{}\nSource\n{}", message, source);
             delete[] message;
             return 0;
         }

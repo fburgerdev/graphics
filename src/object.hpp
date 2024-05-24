@@ -29,5 +29,4 @@ namespace Graphics {
         // member
         uint32 m_ID;
     };
-
 }
